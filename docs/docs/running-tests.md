@@ -35,6 +35,14 @@ Os testes de integração ficam no job `integracao`, que só roda sob demanda: n
 **Actions** do GitHub, escolha **CI → Run workflow**. Assim, uma instabilidade da OpenF1
 não quebra o CI dos pushes.
 
+## Publicação da documentação
+
+O workflow `.github/workflows/docs.yml` (**Docs**) gera o site com
+`mkdocs build --strict` e publica no GitHub Pages, em
+<https://szer02.github.io/projetoF1/>. Ele roda a cada push em `main` que altere
+`docs/`, `pyproject.toml` ou `poetry.lock`, e também sob demanda em **Actions → Docs →
+Run workflow**.
+
 ## Testes unitários
 
 ```bash

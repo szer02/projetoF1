@@ -1,6 +1,7 @@
 # ProjetoF1 Dashboard
 
 [![CI](https://github.com/szer02/projetoF1/actions/workflows/ci.yml/badge.svg)](https://github.com/szer02/projetoF1/actions/workflows/ci.yml)
+[![Docs](https://github.com/szer02/projetoF1/actions/workflows/docs.yml/badge.svg)](https://szer02.github.io/projetoF1/)
 
 Dashboard interativo em Streamlit com dados históricos da Fórmula 1 (2023 em diante),
 consumidos da [OpenF1 API](https://openf1.org/). Para cada sessão, mostra resultado,
@@ -105,3 +106,6 @@ poetry run task docs
 
 Abre em `http://127.0.0.1:8000`, com arquitetura, estrutura, execução, testes e
 contribuição. Os arquivos ficam em [`docs/docs/`](docs/docs/index.md).
+
+A versão publicada fica em <https://szer02.github.io/projetoF1/>, atualizada
+automaticamente pelo workflow **Docs** a cada push em `main` que altere a documentação.

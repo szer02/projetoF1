@@ -1,0 +1,61 @@
+name: Docs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - "pyproject.toml"
+      - "poetry.lock"
+      - ".github/workflows/docs.yml"
+  workflow_dispatch:  # publicação manual
+
+permissions:
+  contents: read
+  pages: write     # publicar no GitHub Pages
+  id-token: write  # autenticação do deploy-pages
+
+concurrency:
+  group: pages
+  cancel-in-progress: false  # não interrompe uma publicação em andamento
+
+env:
+  POETRY_VERSION: "2.5.1"  # mesma versão usada localmente (CI-04)
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar Poetry (bootstrap da ferramenta, fora do projeto)
+        run: pipx install "poetry==${POETRY_VERSION}"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: .python-version
+          cache: poetry
+
+      - name: Selecionar interpretador
+        run: poetry env use python
+
+      - name: Instalar dependências da documentação
+        run: poetry install --only docs
+
+      - name: Gerar o site
+        run: poetry run mkdocs build -f docs/mkdocs.yml --strict
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publicar no GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

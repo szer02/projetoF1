@@ -1,5 +1,7 @@
 site_name: projetoF1
 site_description: Dashboard interativo de dados históricos da Fórmula 1 a partir da OpenF1 API.
+site_url: https://szer02.github.io/projetoF1/
+repo_url: https://github.com/szer02/projetoF1
 docs_dir: docs   # relativo a este arquivo: docs/docs/
 site_dir: site   # build em docs/site/ (ignorado no Git)
 
