@@ -1,56 +1,105 @@
-# projetoF1
+# ProjetoF1 Dashboard
 
 Dashboard interativo em Streamlit com dados históricos da Fórmula 1 (2023 em diante),
 consumidos da [OpenF1 API](https://openf1.org/). Para cada sessão, mostra resultado,
 voltas mais rápidas, ritmo volta a volta, estratégia de pneus e clima.
 
-> Projeto não oficial, sem vínculo com a Formula 1.
+Desenvolvido como projeto da pós-graduação em Engenharia de Dados e IA.
 
-## Requisitos
+## Tecnologias
 
-- Python `>=3.12,<4.0` (desenvolvido com 3.12.10)
-- Poetry `>=2.0`
+| Categoria | Ferramenta |
+| --- | --- |
+| Linguagem | Python 3.12 |
+| Dependências e ambiente | Poetry 2 |
+| Dashboard | Streamlit |
+| Gráficos | Plotly |
+| Cliente HTTP | httpx (timeout e retry com backoff) |
+| Validação dos dados | pydantic v2 |
+| Configuração | python-dotenv |
+| Testes | pytest, pytest-cov, pytest-mock |
+| Lint e formatação | Ruff |
+| Qualidade nos commits | pre-commit, detect-secrets |
+| Atalhos de comandos | taskipy |
+| Documentação | MkDocs Material |
 
-## Início rápido
+## Estrutura do projeto
 
-```bash
-poetry install --with docs
-cp .env.example .env            # opcional: os valores padrão já funcionam
-poetry run streamlit run src/projetof1/dashboard/app.py
+```text
+projetoF1/
+├── src/projetof1/
+│   ├── dashboard/        # tela Streamlit
+│   │   ├── app.py        # ponto de entrada: monta as dependências e as abas
+│   │   ├── charts.py     # gráficos Plotly
+│   │   └── components.py # cards, tabelas e CSS
+│   ├── domain/           # regras do negócio
+│   │   ├── models.py     # modelos dos dados da API e do que aparece na tela
+│   │   ├── repositories.py # contratos de acesso aos dados
+│   │   └── services.py   # F1DashboardService: junta tudo para cada sessão
+│   ├── ingestion/        # acesso à OpenF1
+│   │   ├── http_client.py
+│   │   └── openf1_repositories.py
+│   ├── processing/       # cálculos (funções puras): voltas, stints, resultado, clima
+│   └── utils/            # configuração (.env) e logging
+├── tests/
+│   ├── unit/             # sem acesso à rede
+│   ├── integration/      # contra a API real
+│   └── fixtures/         # JSONs de exemplo
+├── docs/                 # documentação MkDocs
+├── .streamlit/config.toml # tema do dashboard
+├── .env.example          # variáveis de ambiente de exemplo
+└── pyproject.toml        # dependências e configuração das ferramentas
 ```
 
-O dashboard abre em `http://localhost:8501`.
+O fluxo é: `dashboard` → `domain/services` → `ingestion` (busca na API) e
+`processing` (calcula) → de volta para a tela. Detalhes em
+[Arquitetura](docs/docs/architecture.md).
+
+## Instalação
+
+Requisitos: Python `>=3.12,<4.0` (desenvolvido com 3.12.10) e Poetry `>=2.0`.
+
+```bash
+git clone https://github.com/szer02/projetoF1.git
+cd projetoF1
+poetry install --with docs
+poetry run pre-commit install
+cp .env.example .env    # opcional: os valores padrão já funcionam
+```
 
 > No Windows, se outro ambiente virtual estiver ativo, rode antes
 > `Remove-Item Env:VIRTUAL_ENV -ErrorAction SilentlyContinue`.
 
-## Atalhos
-
-| Comando | O que faz |
-| --- | --- |
-| `poetry run task test` | Testes unitários com cobertura (mínimo 50%) |
-| `poetry run task lint` | Lint com Ruff, sem alterar arquivos |
-| `poetry run task format` | Corrige o lint seguro e formata o código |
-| `poetry run task docs` | Documentação local em `http://127.0.0.1:8000` |
-
-`poetry run task --list` mostra todos os atalhos.
-
-## Validação
+## Como executar o dashboard
 
 ```bash
-poetry check --lock
-poetry run ruff check .
-poetry run ruff format --check .
-poetry run pytest tests/unit/
-poetry run mkdocs build -f docs/mkdocs.yml --strict
-poetry run pytest tests/integration/ -m integration --no-cov   # requer internet
+poetry run streamlit run src/projetof1/dashboard/app.py
 ```
+
+O dashboard abre em `http://localhost:8501`. Na barra lateral, escolha
+**temporada → Grande Prêmio → sessão**.
+
+## Testes
+
+```bash
+poetry run task test                                          # unitários + cobertura (mínimo 50%)
+poetry run pytest tests/integration/ -m integration --no-cov  # integração, requer internet
+```
+
+## Lint e formatação
+
+```bash
+poetry run task lint      # verifica, sem alterar arquivos
+poetry run task format    # corrige o que for seguro e formata
+```
+
+`poetry run task --list` mostra todos os atalhos.
 
 ## Documentação
 
 ```bash
-poetry run mkdocs serve -f docs/mkdocs.yml
+poetry run task docs
 ```
 
-A documentação completa (arquitetura, estrutura, execução, testes e contribuição) fica em
-[`docs/docs/`](docs/docs/index.md).
+Abre em `http://127.0.0.1:8000`, com arquitetura, estrutura, execução, testes e
+contribuição. Os arquivos ficam em [`docs/docs/`](docs/docs/index.md).
