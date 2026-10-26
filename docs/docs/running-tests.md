@@ -25,6 +25,16 @@ poetry run pytest tests/unit/
 poetry run mkdocs build -f docs/mkdocs.yml --strict
 ```
 
+## CI (GitHub Actions)
+
+O workflow `.github/workflows/ci.yml` roda a cada push em `main` e `dev` e em todo pull
+request. O job `validacao` executa o fluxo acima, mais a checagem de segredos com
+`detect-secrets`.
+
+Os testes de integração ficam no job `integracao`, que só roda sob demanda: na aba
+**Actions** do GitHub, escolha **CI → Run workflow**. Assim, uma instabilidade da OpenF1
+não quebra o CI dos pushes.
+
 ## Testes unitários
 
 ```bash

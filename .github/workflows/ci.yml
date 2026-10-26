@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+  workflow_dispatch:  # execução manual; também roda os testes de integração
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  POETRY_VERSION: "2.5.1"  # mesma versão usada localmente (CI-04)
+
+jobs:
+  validacao:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar Poetry (bootstrap da ferramenta, fora do projeto)
+        run: pipx install "poetry==${POETRY_VERSION}"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: .python-version
+          cache: poetry
+
+      - name: Selecionar interpretador
+        run: poetry env use python
+
+      - name: Verificar consistência do lock
+        run: poetry check --lock
+
+      - name: Instalar dependências
+        run: poetry install --with docs
+
+      - name: Lint
+        run: poetry run ruff check . --output-format=github
+
+      - name: Formatação
+        run: poetry run ruff format --check .
+
+      - name: Segredos
+        run: git ls-files -z | xargs -0 poetry run detect-secrets-hook --baseline .secrets.baseline
+
+      - name: Testes unitários e cobertura (limite via addopts)
+        run: poetry run pytest tests/unit/
+
+      - name: Documentação
+        run: poetry run mkdocs build -f docs/mkdocs.yml --strict
+
+  integracao:
+    # A OpenF1 é externa: roda só sob demanda para não quebrar o CI por instabilidade da API.
+    if: github.event_name == 'workflow_dispatch'
+    needs: validacao
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar Poetry (bootstrap da ferramenta, fora do projeto)
+        run: pipx install "poetry==${POETRY_VERSION}"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: .python-version
+          cache: poetry
+
+      - name: Selecionar interpretador
+        run: poetry env use python
+
+      - name: Instalar dependências
+        run: poetry install
+
+      - name: Testes de integração (OpenF1 real)
+        run: poetry run pytest tests/integration/ -m integration --no-cov

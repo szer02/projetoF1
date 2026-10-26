@@ -1,5 +1,7 @@
 # ProjetoF1 Dashboard
 
+[![CI](https://github.com/szer02/projetoF1/actions/workflows/ci.yml/badge.svg)](https://github.com/szer02/projetoF1/actions/workflows/ci.yml)
+
 Dashboard interativo em Streamlit com dados históricos da Fórmula 1 (2023 em diante),
 consumidos da [OpenF1 API](https://openf1.org/). Para cada sessão, mostra resultado,
 voltas mais rápidas, ritmo volta a volta, estratégia de pneus e clima.
