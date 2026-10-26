@@ -2,12 +2,15 @@
 
 [![CI](https://github.com/szer02/projetoF1/actions/workflows/ci.yml/badge.svg)](https://github.com/szer02/projetoF1/actions/workflows/ci.yml)
 [![Docs](https://github.com/szer02/projetoF1/actions/workflows/docs.yml/badge.svg)](https://szer02.github.io/projetoF1/)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://f1projeto.streamlit.app/)
 
 Dashboard interativo em Streamlit com dados históricos da Fórmula 1 (2023 em diante),
 consumidos da [OpenF1 API](https://openf1.org/). Para cada sessão, mostra resultado,
 voltas mais rápidas, ritmo volta a volta, estratégia de pneus e clima.
 
 Desenvolvido como projeto da pós-graduação em Engenharia de Dados e IA.
+
+**Veja o dashboard no ar:** <https://f1projeto.streamlit.app/>
 
 ## Tecnologias
 
@@ -81,6 +84,9 @@ poetry run streamlit run src/projetof1/dashboard/app.py
 
 O dashboard abre em `http://localhost:8501`. Na barra lateral, escolha
 **temporada → Grande Prêmio → sessão**.
+
+Para só ver o resultado, sem instalar nada, acesse a versão publicada no Streamlit
+Community Cloud: <https://f1projeto.streamlit.app/>.
 
 ## Testes
 
