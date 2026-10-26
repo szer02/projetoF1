@@ -1,0 +1,35 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-merge-conflict
+      - id: check-toml
+      - id: check-yaml
+        # --unsafe: valida só a sintaxe; o docs/mkdocs.yml usa a tag
+        # !!python/name exigida pelo diagrama Mermaid (pymdownx.superfences).
+        args: [--unsafe]
+      - id: check-added-large-files
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.17.2  # mesma versão do Ruff no poetry.lock (CI-05)
+    hooks:
+      - id: ruff-check
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args: [--baseline, .secrets.baseline]
+
+  - repo: local
+    hooks:
+      - id: poetry-check-lock
+        name: poetry check --lock
+        entry: poetry check --lock
+        language: system
+        files: ^(pyproject\.toml|poetry\.lock)$
+        pass_filenames: false

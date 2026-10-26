@@ -1,0 +1,5 @@
+[
+  {"position": 2, "driver_number": 44, "number_of_laps": 57, "points": 18.0, "dnf": false, "dns": false, "dsq": false, "duration": 5640.1, "gap_to_leader": 11.987},
+  {"position": 1, "driver_number": 1, "number_of_laps": 57, "points": 25.0, "dnf": false, "dns": false, "dsq": false, "duration": 5628.113, "gap_to_leader": 0},
+  {"position": null, "driver_number": 11, "number_of_laps": 30, "dnf": true, "dns": false, "dsq": false, "duration": null, "gap_to_leader": null}
+]

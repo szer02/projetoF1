@@ -1,0 +1,5 @@
+[
+  {"driver_number": 1, "full_name": "Max VERSTAPPEN", "name_acronym": "VER", "team_name": "Red Bull Racing", "team_colour": "3671C6", "headshot_url": "https://example.com/ver.png", "country_code": "NED"},
+  {"driver_number": 11, "full_name": "Sergio PEREZ", "name_acronym": "PER", "team_name": "Red Bull Racing", "team_colour": "3671C6", "headshot_url": null},
+  {"driver_number": 44, "full_name": "Lewis HAMILTON", "name_acronym": "HAM", "team_name": "Mercedes", "team_colour": "27F4D2"}
+]

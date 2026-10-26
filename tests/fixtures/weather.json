@@ -1,0 +1,4 @@
+[
+  {"date": "2023-03-05T15:02:00+00:00", "air_temperature": 27.5, "track_temperature": 33.0, "humidity": 40.0, "rainfall": 0, "wind_speed": 1.2, "wind_direction": 100},
+  {"date": "2023-03-05T15:01:00+00:00", "air_temperature": 28.0, "track_temperature": 35.0, "humidity": 42.0, "rainfall": 0, "wind_speed": 1.0, "wind_direction": 90, "pressure": 1010.1}
+]
