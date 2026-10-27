@@ -15,3 +15,6 @@ dist/
 *.key
 *.secret
 credentials.json
+
+# Contexto local do Claude Code
+CLAUDE.md

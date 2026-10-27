@@ -41,7 +41,8 @@ html, body, [class*="css"] { font-family: 'Titillium Web', 'Segoe UI', sans-seri
 .f1-header h1 { margin: 0; font-size: 2.1rem; font-weight: 700; letter-spacing: 0.02em; }
 .f1-header p { margin: 0; color: #B8B8C2; font-size: 1rem; }
 .f1-card { background: #1F1F2B; border-radius: 14px; padding: 1rem; text-align: center;
-           border-top: 5px solid var(--team); box-shadow: 0 6px 18px rgba(0,0,0,0.35); }
+           border-top: 5px solid var(--team); box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+           margin-bottom: 1.5rem; }
 .f1-card img { width: 96px; height: 96px; object-fit: cover; border-radius: 50%;
                background: #2A2A38; border: 3px solid var(--team); }
 .f1-card .pos { font-size: 1.6rem; font-weight: 700; color: #E10600; }
